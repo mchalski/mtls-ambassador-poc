@@ -27,7 +27,6 @@ func main() {
 		Addr:    ":8080",
 		Handler: r,
 		TLSConfig: &tls.Config{
-			RootCAs:    certPool,
 			ClientCAs:  certPool,
 			ClientAuth: tls.RequireAndVerifyClientCert,
 		},
