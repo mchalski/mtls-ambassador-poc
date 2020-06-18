@@ -1,0 +1,9 @@
+version: '2.1'
+services:
+    mtls-ping:
+        build: .
+        ports:
+            - ${MTLS_PING_PORT-8080}:8080
+        volumes:
+            - ${MTLS_PING_CERT:-./certs/server.crt}:/etc/mtls-ping/certs/server.crt
+            - ${MTLS_PING_KEY:-./certs/server.key}:/etc/mtls-ping/certs/server.key
