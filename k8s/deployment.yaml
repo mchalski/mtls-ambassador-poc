@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mtls-ping-deployment
+  labels:
+    app: mtls-ping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mtls-ping
+  template:
+    metadata:
+      labels:
+        app: mtls-ping
+    spec:
+      containers:
+      - name: mtls-ping
+        image: mchalski/mtls-ping:1.0.1
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - name: tenant-pem
+            mountPath: "/etc/mtls-ping/certs/tenant-ca"
+            readOnly: true
+          - name: server-cert
+            mountPath: "/etc/mtls-ping/certs/server"
+            readOnly: true
+      volumes:
+        - name: tenant-pem
+          secret:
+             # kubectl create secret generic mtls-tenant-ca-pem --from-file certs/tenant-ca/tenant.ca.pem
+             secretName: mtls-tenant-ca-pem
+        - name: server-cert
+          secret:
+             # kubectl create secret generic mtls-server-cert --from-file=certs/server/server.crt --from-file=certs/server/server.ke
+             secretName: mtls-server-cert
