@@ -10,9 +10,9 @@ import (
 )
 
 const (
-	ServerCert = "/etc/mtls-ping/certs/server.crt"
-	ServerKey  = "/etc/mtls-ping/certs/server.key"
-	TenantPEM  = "/etc/mtls-ping/certs/tenant.ca.pem"
+	ServerCert = "/etc/mtls-ping/certs/server/server.crt"
+	ServerKey  = "/etc/mtls-ping/certs/server/server.key"
+	TenantPEM  = "/etc/mtls-ping/certs/tenant-ca/tenant.ca.pem"
 )
 
 func main() {
