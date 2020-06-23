@@ -19,6 +19,8 @@ const (
 
 var (
 	MenderBackend = "staging.hosted.mender.io:443"
+	MenderUser    = "mtls@mender.io"
+	MenderPass    = ""
 )
 
 func main() {
@@ -81,5 +83,15 @@ func config() {
 	backend := os.Getenv("MTLS_PING_MENDER_BACKEND")
 	if backend != "" {
 		MenderBackend = backend
+	}
+
+	MenderUser = os.Getenv("MTLS_PING_MENDER_USER")
+	if MenderUser == "" {
+		panic("provide MTLS_PING_MENDER_USER")
+	}
+
+	MenderPass := os.Getenv("MTLS_PING_MENDER_PASS")
+	if MenderPass == "" {
+		panic("provide MTLS_PING_MENDER_PASS")
 	}
 }

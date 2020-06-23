@@ -16,7 +16,19 @@ spec:
     spec:
       containers:
       - name: mtls-ping
-        image: mchalski/mtls-ping:1.0.4
+        image: mchalski/mtls-ping:1.0.5
+        env:
+        # kubectl create secret generic mender-creds --from-literal=username='...' --from-literal=password='...'
+          - name: MTLS_PING_MENDER_USER
+            valueFrom:
+              secretKeyRef:
+                name: mender-creds
+                key: username
+          - name: MTLS_PING_MENDER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mender-creds
+                key: password
         ports:
           - containerPort: 8080
         volumeMounts:
