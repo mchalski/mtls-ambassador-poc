@@ -5,6 +5,8 @@ import (
 	"crypto/x509"
 	"io/ioutil"
 	"net/http"
+	"net/http/httputil"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +17,13 @@ const (
 	TenantPEM  = "/etc/mtls-ping/certs/tenant-ca/tenant.ca.pem"
 )
 
+var (
+	MenderBackend = "staging.hosted.mender.io:443"
+)
+
 func main() {
+	config()
+
 	certPool, err := certPool()
 	if err != nil {
 		panic(err)
@@ -47,6 +55,14 @@ func router() *gin.Engine {
 		})
 	})
 
+	director := func(req *http.Request) {
+		req.URL.Scheme = "https"
+		req.URL.Host = MenderBackend
+	}
+	proxy := &httputil.ReverseProxy{Director: director}
+
+	r.Any("/api/*path", gin.WrapH(proxy))
+
 	return r
 }
 
@@ -59,4 +75,11 @@ func certPool() (*x509.CertPool, error) {
 	caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(tenantPEM)
 	return caCertPool, nil
+}
+
+func config() {
+	backend := os.Getenv("MTLS_PING_MENDER_BACKEND")
+	if backend != "" {
+		MenderBackend = backend
+	}
 }
