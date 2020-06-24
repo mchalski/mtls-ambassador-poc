@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -47,7 +49,7 @@ func main() {
 		panic(err)
 	}
 
-	r := router()
+	r := router(menderClient)
 
 	server := http.Server{
 		Addr:    ":8080",
@@ -64,7 +66,7 @@ func main() {
 	}
 }
 
-func router() *gin.Engine {
+func router(apiClient *mender.Client) *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) {
@@ -79,7 +81,49 @@ func router() *gin.Engine {
 	}
 	proxy := &httputil.ReverseProxy{Director: director}
 
-	r.Any("/api/*path", gin.WrapH(proxy))
+	menderApiHandler := func(c *gin.Context) {
+		if c.Request.URL.Path == "/api/devices/v1/authentication/auth_requests" {
+			log.Println("intercepting auth request")
+
+			data, err := ioutil.ReadAll(c.Request.Body)
+			defer c.Request.Body.Close()
+
+			if err != nil {
+				log.Printf("failed to read auth request: %v\n", err)
+				c.Writer.WriteHeader(http.StatusBadRequest)
+				return
+			}
+
+			authreq := mender.AuthReq{}
+			err = json.Unmarshal(data, &authreq)
+			if err != nil {
+				log.Printf("failed to parse auth request: %v\n", err)
+				c.Writer.WriteHeader(http.StatusBadRequest)
+				return
+			}
+
+			c.Request.Body = ioutil.NopCloser(bytes.NewReader(data))
+
+			err = apiClient.Preauth(
+				authreq.IdData,
+				authreq.PubKey,
+				MenderBackend,
+				MenderMgmtToken,
+			)
+			if err != nil {
+				if mender.ErrIsPreauthConflict(err) {
+					log.Printf("preauth conflict detected, proceeding: %v\n", err)
+				} else {
+					log.Printf("general preauth error: %v\n", err)
+					c.Writer.WriteHeader(http.StatusInternalServerError)
+				}
+			}
+
+		}
+		proxy.ServeHTTP(c.Writer, c.Request)
+	}
+
+	r.Any("/api/*path", menderApiHandler)
 
 	return r
 }
