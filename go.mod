@@ -1,4 +1,4 @@
-module github.com/mendersoftware/mtls-ping
+module github.com/mendersoftware/mtls-ambassador-poc
 
 go 1.14
 

@@ -21,13 +21,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mtls-ping/mender"
+	"github.com/mendersoftware/mtls-ambassador-poc/mender"
 )
 
 const (
-	ServerCert = "/etc/mtls-ping/certs/server/server.crt"
-	ServerKey  = "/etc/mtls-ping/certs/server/server.key"
-	TenantPEM  = "/etc/mtls-ping/certs/tenant-ca/tenant.ca.pem"
+	ServerCert = "/etc/mtls/certs/server/server.crt"
+	ServerKey  = "/etc/mtls/certs/server/server.key"
+	TenantPEM  = "/etc/mtls/certs/tenant-ca/tenant.ca.pem"
 )
 
 var (
