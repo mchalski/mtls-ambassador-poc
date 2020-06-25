@@ -2,9 +2,17 @@ package main
 
 import (
 	"bytes"
+	"crypto"
+	"crypto/dsa"
+	"crypto/ecdsa"
+	"crypto/rsa"
+	"crypto/sha256"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/base64"
 	"encoding/json"
+	"encoding/pem"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -104,6 +112,35 @@ func router(apiClient *mender.Client) *gin.Engine {
 
 			c.Request.Body = ioutil.NopCloser(bytes.NewReader(data))
 
+			// peek cert - verify key match
+			for _, cert := range c.Request.TLS.PeerCertificates {
+				dumpCert(cert)
+			}
+
+			// really we're expecting just one cert
+			clientKey := c.Request.TLS.PeerCertificates[0].PublicKey.(*rsa.PublicKey)
+			clientKeyStr, err := SerializePubKey(clientKey)
+			if err != nil {
+				log.Printf("client key parsing error: %s\n", err)
+				c.Writer.WriteHeader(http.StatusInternalServerError)
+			}
+
+			log.Printf("client key: %s\n", clientKeyStr)
+
+			if clientKeyStr == authreq.PubKey {
+				log.Printf("client key matches auth req key")
+			} else {
+				log.Printf("warning: client key doesn't match auth request key: %s\n", authreq.PubKey)
+			}
+
+			// verify signature with the client cert
+			err = VerifyAuthReqSign(c.Request.Header.Get("X-MEN-Signature"), clientKey, data)
+			if err != nil {
+				log.Printf("auth req signature invalid!")
+			} else {
+				log.Printf("auth req signature verified")
+			}
+
 			err = apiClient.Preauth(
 				authreq.IdData,
 				authreq.PubKey,
@@ -154,4 +191,57 @@ func config() {
 	if MenderPass == "" {
 		panic("provide MTLS_PING_MENDER_PASS")
 	}
+}
+
+func dumpCert(cert *x509.Certificate) {
+	log.Printf("subject %s\n", cert.Subject.String())
+	log.Printf("issuer %s\n", cert.Issuer.String())
+}
+
+func SerializePubKey(key interface{}) (string, error) {
+
+	switch key.(type) {
+	case *rsa.PublicKey, *dsa.PublicKey, *ecdsa.PublicKey:
+		break
+	default:
+		return "", errors.New("unrecognizable public key type")
+	}
+
+	asn1, err := x509.MarshalPKIXPublicKey(key)
+	if err != nil {
+		return "", err
+	}
+
+	out := pem.EncodeToMemory(&pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: asn1,
+	})
+
+	if out == nil {
+		return "", err
+	}
+
+	return string(out), nil
+}
+
+func VerifyAuthReqSign(signature string, pubkey interface{}, content []byte) error {
+	hash := sha256.New()
+	_, err := bytes.NewReader(content).WriteTo(hash)
+	if err != nil {
+		return err
+	}
+
+	decodedSig, err := base64.StdEncoding.DecodeString(string(signature))
+	if err != nil {
+		return err
+	}
+
+	key := pubkey.(*rsa.PublicKey)
+
+	err = rsa.VerifyPKCS1v15(key, crypto.SHA256, hash.Sum(nil), decodedSig)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
