@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mtls-ping
-        image: mchalski/mtls-ping:1.0.7
+        image: mendersoftware/mtls-ambassador-poc:1.0.0
         env:
         # kubectl create secret generic mender-creds --from-literal=username='...' --from-literal=password='...'
           - name: MTLS_PING_MENDER_USER
