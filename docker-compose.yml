@@ -1,13 +1,13 @@
 version: '2.1'
 services:
-    mtls-ping:
+    mtls-ambassador:
         build: .
         ports:
-            - ${MTLS_PING_PORT-8080}:8080
+            - ${MTLS_PORT-8080}:8080
         volumes:
-            - ${MTLS_PING_CERT:-./certs/server/server.crt}:/etc/mtls-ping/certs/server/server.crt
-            - ${MTLS_PING_KEY:-./certs/server/server.key}:/etc/mtls-ping/certs/server/server.key
+            - ${MTLS_CERT:-./certs/server/server.crt}:/etc/mtls/certs/server/server.crt
+            - ${MTLS_KEY:-./certs/server/server.key}:/etc/mtls/certs/server/server.key
         environment:
-            MTLS_PING_MENDER_USER: "mtls@mender.io"
-            MTLS_PING_MENDER_PASS: "correcthorsebatterystaple"
+            MTLS_MENDER_USER: "mtls@mender.io"
+            MTLS_MENDER_PASS: "correcthorsebatterystaple"
 

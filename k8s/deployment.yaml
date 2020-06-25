@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mtls-ping-deployment
+  name: mtls-ambassador-deployment
   labels:
-    app: mtls-ping
+    app: mtls-ambassador
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mtls-ping
+      app: mtls-ambassador
   template:
     metadata:
       labels:
-        app: mtls-ping
+        app: mtls-ambassador
     spec:
       containers:
-      - name: mtls-ping
-        image: mendersoftware/mtls-ambassador-poc:1.0.1
+      - name: mtls-ambassador
+        image: mendersoftware/mtls-ambassador-poc:1.0.2
         env:
         # kubectl create secret generic mender-creds --from-literal=username='...' --from-literal=password='...'
-          - name: MTLS_PING_MENDER_USER
+          - name: MTLS_MENDER_USER
             valueFrom:
               secretKeyRef:
                 name: mender-creds
                 key: username
-          - name: MTLS_PING_MENDER_PASS
+          - name: MTLS_MENDER_PASS
             valueFrom:
               secretKeyRef:
                 name: mender-creds
@@ -33,10 +33,10 @@ spec:
           - containerPort: 8080
         volumeMounts:
           - name: tenant-pem
-            mountPath: "/etc/mtls-ping/certs/tenant-ca"
+            mountPath: "/etc/mtls/certs/tenant-ca"
             readOnly: true
           - name: server-cert
-            mountPath: "/etc/mtls-ping/certs/server"
+            mountPath: "/etc/mtls/certs/server"
             readOnly: true
       volumes:
         - name: tenant-pem
