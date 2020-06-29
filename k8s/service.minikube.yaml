@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mtls-ambassador-service
+  labels:
+    app: mtls-ambassador
+spec:
+  selector:
+    app: mtls-ambassador
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
