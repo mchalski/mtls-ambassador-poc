@@ -2,13 +2,16 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+
+	"github.com/mendersoftware/mtls-ambassador-poc/app"
 )
 
 const (
 	ApiUrlStatus = "/status"
+	ApiUrlProxy  = "/api/devices/*path"
 )
 
-func NewRouter() *gin.Engine {
+func NewRouter(app app.App, proxy Proxy) (*gin.Engine, error) {
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.New()
@@ -20,5 +23,8 @@ func NewRouter() *gin.Engine {
 	status := NewStatusController()
 	router.GET(ApiUrlStatus, status.GetStatus)
 
-	return router
+	proxyController := NewProxyController(app, proxy)
+	router.Any(ApiUrlProxy, proxyController.Any)
+
+	return router, nil
 }

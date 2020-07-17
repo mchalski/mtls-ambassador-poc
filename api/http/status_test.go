@@ -11,7 +11,7 @@ import (
 )
 
 func TestStatus(t *testing.T) {
-	router := NewRouter()
+	router, _ := NewRouter(nil, nil)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/status", nil)
