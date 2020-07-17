@@ -2,11 +2,16 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/mendersoftware/mtls-ambassador/mender"
 )
 
 func main() {
+	doMain(os.Args)
+}
+
+func doMain(args []string) {
 	log.Println("reading config")
 	config := ReadConfig()
 

@@ -1,0 +1,23 @@
+FROM golang:1.14-alpine3.12 as builder
+RUN apk add --no-cache \
+    xz-dev \
+    musl-dev \
+    gcc
+WORKDIR /go/src/github.com/mendersoftware/mtls-ambassador
+COPY ./ .
+RUN env CGO_ENABLED=0 go test -c -o mtls-ambassador-test -coverpkg $(go list ./... | grep -v vendor | grep -v mocks | grep -v test | tr  '\n' ,)
+
+FROM alpine:3.12
+RUN apk add --no-cache ca-certificates xz
+RUN mkdir -p /etc/mtls-ambassador
+COPY ./config.yaml /etc/mtls-ambassador
+COPY --from=builder /go/src/github.com/mendersoftware/mtls-ambassador/mtls-ambassador-test /usr/bin
+ENTRYPOINT [ \
+    "/usr/bin/mtls-ambassador-test", \
+    "-test.coverprofile=/testing/coverage-acceptance.txt", \
+    "-acceptance-tests", \
+    "-test.run=TestRunMain", \
+    "-cli-args=--config=/etc/mtls-ambassador/config.yaml server --automigrate" \
+]
+
+EXPOSE 8080

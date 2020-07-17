@@ -1,0 +1,21 @@
+version: '2.1'
+services:
+  acceptance:
+    image: testing
+    volumes:
+      - "${TESTS_DIR}:/testing"
+    networks:
+      - mender
+    depends_on:
+      - mender-mtls-ambassador
+
+  mender-mtls-ambassador:
+    # built/tagged locally and only used for testing
+    image: registry.mender.io/mendersoftware/mtls-ambassador:prtest
+    volumes:
+      - "${TESTS_DIR}:/testing"
+    networks:
+      - mender
+    depends_on:
+      - mender-mongo
+
