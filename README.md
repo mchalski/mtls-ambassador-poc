@@ -24,12 +24,12 @@ A standard builder dockerfile is included and two deployment methods:
 For docker-compose, simply issue `docker-compose build` and the service is ready to go.
 
 For k8s deployments, there's strictly no need to build anything; it pulls prebuilt docker images, e.g.:
-`mendersoftware/mtls-ambassador-poc:1.0.2`
+`mendersoftware/mtls-ambassador:1.0.2`
 
 Building, tagging and publishing images was done manually, as in:
 ```
-docker build -t mendersoftware/mtls-ambassador-poc:1.0.2 .
-docker push mendersoftware/mtls-ambassador-poc:1.0.2
+docker build -t mendersoftware/mtls-ambassador:1.0.2 .
+docker push mendersoftware/mtls-ambassador:1.0.2
 ```
 
 ## Run
@@ -187,8 +187,8 @@ We'll use a slightly modified mender bash client (`extra/mender-client.sh`):
 
 
 1. Setup `MENDER_CLIENT_CERT` and `MENDER_CLIENT_KEY` env vars, e.g.:
-    - `export MENDER_CLIENT_CERT=../mtls-ambassador-poc/certs/tenant-foo.client.1.crt`
-    - `export MENDER_CLIENT_KEY=../mtls-ambassador-poc/certs/tenant-foo.client.1.key`
+    - `export MENDER_CLIENT_CERT=../mtls-ambassador/certs/tenant-foo.client.1.crt`
+    - `export MENDER_CLIENT_KEY=../mtls-ambassador/certs/tenant-foo.client.1.key`
 2. Setup an `extra/keys` directory for the client:
     - copy `$MENDER_CLIENT_KEY` as `private.key`
     - copy a public key extracted from `$MENDER_CLIENT_CERT` as `public.key`

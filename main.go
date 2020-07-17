@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/mender"
+	"github.com/mendersoftware/mtls-ambassador/mender"
 )
 
 func main() {
