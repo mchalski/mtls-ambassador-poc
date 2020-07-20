@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mtls-ambassador
-        image: mendersoftware/mtls-ambassador-poc:1.0.2
+        image: registry.mender.io/mendersoftware/mtls-ambassador:1.0.2
         env:
         # kubectl create secret generic mender-creds --from-literal=username='...' --from-literal=password='...'
           - name: MTLS_MENDER_USER

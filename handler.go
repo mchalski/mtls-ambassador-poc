@@ -11,7 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/mender"
+	"github.com/mendersoftware/mtls-ambassador/mender"
 )
 
 func NewHandler(apiClient *mender.Client, c *Config, mgmtToken string) *gin.Engine {
