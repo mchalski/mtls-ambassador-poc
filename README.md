@@ -24,12 +24,12 @@ A standard builder dockerfile is included and two deployment methods:
 For docker-compose, simply issue `docker-compose build` and the service is ready to go.
 
 For k8s deployments, there's strictly no need to build anything; it pulls prebuilt docker images, e.g.:
-`mendersoftware/mtls-ambassador:1.0.2`
+`registry.mender.io/mendersoftware/mtls-ambassador:1.0.2`
 
 Building, tagging and publishing images was done manually, as in:
 ```
-docker build -t mendersoftware/mtls-ambassador:1.0.2 .
-docker push mendersoftware/mtls-ambassador:1.0.2
+docker build -t registry.mender.io/mendersoftware/mtls-ambassador:1.0.2 .
+docker push registry.mender.io/mendersoftware/mtls-ambassador:1.0.2
 ```
 
 ## Run
