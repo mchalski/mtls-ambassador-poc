@@ -1,0 +1,49 @@
+swagger: '2.0'
+info:
+  version: '0.1'
+  title: Audit Logs service
+  description: |
+    An user-facing API to audit logs service.
+
+host: 'hosted.mender.io'
+schemes:
+  - https
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /ping:
+    get:
+      operationId: Check Health
+      summary: Get health status of service
+      description: |
+        Returns status of the running service.
+      responses:
+        200:
+          description: Successful response.
+          examples:
+            application/json:
+              message: pong
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Error:
+    description: Error descriptor.
+    type: object
+    properties:
+      error:
+        description: Description of the error.
+        type: string
+    example:
+      error: "internal server error"
