@@ -20,7 +20,7 @@ const (
 )
 
 type Server struct {
-	server http.Server
+	server *http.Server
 }
 
 func NewServer(c *Config, h http.Handler) (*Server, error) {
@@ -40,7 +40,7 @@ func NewServer(c *Config, h http.Handler) (*Server, error) {
 	}
 
 	return &Server{
-		server: server,
+		server: &server,
 	}, nil
 }
 
