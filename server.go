@@ -1,3 +1,7 @@
+// Copyright 2020 Northern.tech AS
+//
+//    All Rights Reserved
+
 package main
 
 import (
