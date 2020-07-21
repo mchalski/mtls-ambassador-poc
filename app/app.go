@@ -6,8 +6,8 @@ import (
 	"crypto/x509"
 	"errors"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/client/mender"
-	"github.com/mendersoftware/mtls-ambassador-poc/utils"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
+	"github.com/mendersoftware/mtls-ambassador/utils"
 )
 
 var (
