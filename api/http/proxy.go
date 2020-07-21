@@ -10,8 +10,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/app"
-	"github.com/mendersoftware/mtls-ambassador-poc/client/mender"
+	"github.com/mendersoftware/mtls-ambassador/app"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
 )
 
 const (

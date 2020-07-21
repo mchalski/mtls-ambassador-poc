@@ -11,9 +11,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/app"
-	mapp "github.com/mendersoftware/mtls-ambassador-poc/app/mocks"
-	"github.com/mendersoftware/mtls-ambassador-poc/client/mender"
+	"github.com/mendersoftware/mtls-ambassador/app"
+	mapp "github.com/mendersoftware/mtls-ambassador/app/mocks"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
 )
 
 func TestProxyController(t *testing.T) {

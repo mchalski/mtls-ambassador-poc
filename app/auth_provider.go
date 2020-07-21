@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/client/mender"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
 )
 
 type AuthProvider interface {

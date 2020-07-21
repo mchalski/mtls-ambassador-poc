@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/mendersoftware/mtls-ambassador-poc/client/mender"
-	mmender "github.com/mendersoftware/mtls-ambassador-poc/client/mender/mocks"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
+	mmender "github.com/mendersoftware/mtls-ambassador/client/mender/mocks"
 
 	"github.com/stretchr/testify/assert"
 )

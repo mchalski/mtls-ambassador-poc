@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	mender "github.com/mendersoftware/mtls-ambassador-poc/client/mender"
+	mender "github.com/mendersoftware/mtls-ambassador/client/mender"
 	mock "github.com/stretchr/testify/mock"
 
 	x509 "crypto/x509"

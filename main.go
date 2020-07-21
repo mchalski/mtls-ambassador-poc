@@ -10,10 +10,10 @@ import (
 	"github.com/mendersoftware/go-lib-micro/config"
 	"github.com/urfave/cli"
 
-	api "github.com/mendersoftware/mtls-ambassador-poc/api/http"
-	"github.com/mendersoftware/mtls-ambassador-poc/app"
-	"github.com/mendersoftware/mtls-ambassador-poc/client/mender"
-	aconfig "github.com/mendersoftware/mtls-ambassador-poc/config"
+	api "github.com/mendersoftware/mtls-ambassador/api/http"
+	"github.com/mendersoftware/mtls-ambassador/app"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
+	aconfig "github.com/mendersoftware/mtls-ambassador/config"
 )
 
 func main() {
