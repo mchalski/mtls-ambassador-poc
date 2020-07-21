@@ -10,6 +10,8 @@ import (
 	"crypto/x509"
 	"errors"
 
+	"github.com/mendersoftware/go-lib-micro/log"
+
 	"github.com/mendersoftware/mtls-ambassador/client/mender"
 	"github.com/mendersoftware/mtls-ambassador/utils"
 )
@@ -19,6 +21,8 @@ var (
 	ErrCertNum         = errors.New("need at least one client certificate")
 	ErrUnauthorized    = errors.New("unauthorized")
 	ErrPreauthConflict = errors.New("preauth conflict")
+
+	l = log.NewEmpty()
 )
 
 type App interface {

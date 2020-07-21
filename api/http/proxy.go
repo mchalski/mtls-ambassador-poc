@@ -13,6 +13,8 @@ import (
 	"net/url"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mendersoftware/go-lib-micro/log"
+	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mtls-ambassador/app"
 	"github.com/mendersoftware/mtls-ambassador/client/mender"
@@ -20,6 +22,10 @@ import (
 
 const (
 	UrlDevauthAuthReq = "/api/devices/v1/authentication/auth_requests"
+)
+
+var (
+	l = log.NewEmpty()
 )
 
 // ProxyController proxies device API requests to Mender
@@ -38,22 +44,26 @@ type proxy struct {
 }
 
 func NewProxy(menderUrl string) (*proxy, error) {
+	l.Infof("creating proxy with url %s", menderUrl)
 	u, err := url.Parse(menderUrl)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to create proxy")
 	}
 
+	l.Infof("proxy scheme: %s, host: %s", u.Scheme, u.Host)
 	director := func(req *http.Request) {
 		req.URL.Scheme = u.Scheme
 		req.URL.Host = u.Host
 	}
 
+	l.Info("creating proxy: ok")
 	return &proxy{
 		proxy: &httputil.ReverseProxy{Director: director},
 	}, nil
 }
 
 func (p *proxy) Redirect(w http.ResponseWriter, r *http.Request) {
+	l.Debug("proxy redirection called")
 	p.proxy.ServeHTTP(w, r)
 }
 
@@ -67,29 +77,46 @@ func NewProxyController(app app.App, proxy Proxy) *ProxyController {
 
 func (pc *ProxyController) Any(c *gin.Context) {
 	if c.Request.URL.Path == UrlDevauthAuthReq {
+		l.Debug("auth request intercepted")
+
+		l.Debug("parsing auth request")
 		authreq, raw, err := parseAuthReq(c.Request)
 		if err != nil {
+			l.Errorf("parsing auth request failed: %s", err.Error())
 			c.Writer.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		l.Debug("parsing auth request: ok")
 
+		l.Debug("verifying client cert")
 		err = pc.app.VerifyClientCert(c,
 			c.Request.TLS.PeerCertificates,
 			authreq,
 			raw,
 			c.Request.Header.Get("X-MEN-Signature"))
 		if err != nil {
+			l.Errorf("verifying client cert failed: %s", err.Error())
 			c.Writer.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		l.Debug("verifying client cert: ok")
 
+		l.Debug("preauthorizing")
 		err = pc.app.Preauth(c, authreq)
 		if err != nil && err != app.ErrPreauthConflict {
+			l.Errorf("preauthorization failed: %s", err.Error())
 			c.Writer.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+
+		if err == app.ErrPreauthConflict {
+			l.Info("preauthorization conflict detected, but it's ok, proceeding ")
+		}
+
+		l.Debug("preauthorizing: ok")
 	}
 
+	l.Debug("proxying...")
 	pc.proxy.Redirect(c.Writer, c.Request)
 }
 

@@ -22,10 +22,14 @@ type authProvider struct {
 }
 
 func NewAuthProvider(client mender.Client, user, pass string) (*authProvider, error) {
+	l.Infof("logging in with user %s", user)
+
 	token, err := client.Login(context.TODO(), user, pass)
 
 	switch err {
 	case nil:
+		l.Info("logging in: ok")
+		l.Debugf("token: %s", token)
 		return &authProvider{
 			client: client,
 			user:   user,

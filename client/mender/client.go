@@ -14,6 +14,8 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/mendersoftware/go-lib-micro/log"
 )
 
 const (
@@ -26,6 +28,7 @@ const (
 var (
 	ErrUnauthorized    = errors.New("unauthorized")
 	ErrPreauthConflict = errors.New("preauth conflict")
+	l                  = log.NewEmpty()
 )
 
 type Client interface {
@@ -39,6 +42,7 @@ type client struct {
 }
 
 func NewClient(baseUrl string) *client {
+	l.Infof("created client with base url %s", baseUrl)
 	return &client{
 		c: &http.Client{
 			Timeout: DefaultTimeoutSec * time.Second,

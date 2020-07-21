@@ -7,6 +7,8 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/mendersoftware/go-lib-micro/log"
+
 	"github.com/mendersoftware/mtls-ambassador/app"
 )
 
@@ -17,11 +19,14 @@ const (
 
 func NewRouter(app app.App, proxy Proxy) (*gin.Engine, error) {
 	gin.SetMode(gin.ReleaseMode)
+	gin.DisableConsoleColor()
+
+	l := log.NewEmpty()
 
 	router := gin.New()
 
 	//TODO use custom Mender-compliant logger
-	router.Use(gin.Logger())
+	router.Use(routerLogger(l))
 	router.Use(gin.Recovery())
 
 	status := NewStatusController()
