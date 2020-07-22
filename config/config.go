@@ -40,6 +40,10 @@ const (
 	// SettingDebugLog is the config key for the turning on the debug log
 	SettingDebugLog        = "debug_log"
 	SettingDebugLogDefault = false
+
+	// SettingSkipVerify controls the TLS cert verification of the Mender backend
+	SettingInsecureSkipVerify        = "insecure_skip_verify"
+	SettingInsecureSkipVerifyDefault = false
 )
 
 var (
@@ -53,5 +57,6 @@ var (
 		{Key: SettingServerKey, Value: SettingServerKeyDefault},
 		{Key: SettingTenantCAPem, Value: SettingTenantCAPemDefault},
 		{Key: SettingDebugLog, Value: SettingDebugLogDefault},
+		{Key: SettingInsecureSkipVerify, Value: SettingInsecureSkipVerifyDefault},
 	}
 )

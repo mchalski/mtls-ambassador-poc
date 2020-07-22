@@ -17,7 +17,7 @@ import (
 )
 
 func TestNewClient(t *testing.T) {
-	c := NewClient("https://hosted.mender.io")
+	c := NewClient("https://hosted.mender.io", false)
 	assert.NotNil(t, c)
 	assert.Equal(t, "https://hosted.mender.io", c.baseUrl)
 	assert.NotNil(t, c.c.Timeout)
@@ -27,13 +27,20 @@ func TestClientLogin(t *testing.T) {
 	t.Parallel()
 	cases := []struct {
 		name string
-		ret  int
+
+		insecure bool
+		ret      int
 
 		out error
 	}{
 		{
 			name: "ok",
 			ret:  200,
+		},
+		{
+			name:     "ok, insecure",
+			insecure: true,
+			ret:      200,
 		},
 		{
 			name: "unauthorized",
@@ -52,10 +59,14 @@ func TestClientLogin(t *testing.T) {
 		t.Run(tc.name, func(*testing.T) {
 
 			f := mockLogin(t, tc.ret)
-			s := mockServer("/api/management/v1/useradm/auth/login", f)
+
+			// to test insecure https - create a https server (self-signed)
+			s := mockServer("/api/management/v1/useradm/auth/login", tc.insecure, f)
+
 			defer s.Close()
 
-			c := NewClient(s.URL)
+			c := NewClient(s.URL, tc.insecure)
+
 			tok, err := c.Login(context.TODO(), "foo", "bar")
 
 			if tc.out == nil {
@@ -75,6 +86,8 @@ func TestClientPreauth(t *testing.T) {
 	cases := []struct {
 		name string
 
+		insecure bool
+
 		idData       string
 		idDataStruct map[string]interface{}
 		pubkey       string
@@ -90,6 +103,19 @@ func TestClientPreauth(t *testing.T) {
 			idData: `{"mac": "00:01:02:03"}`,
 			pubkey: "key",
 			token:  "token",
+			idDataStruct: map[string]interface{}{
+				"mac": "00:01:02:03",
+			},
+
+			ret: 201,
+		},
+		{
+			name: "ok, insecure",
+
+			insecure: true,
+			idData:   `{"mac": "00:01:02:03"}`,
+			pubkey:   "key",
+			token:    "token",
 			idDataStruct: map[string]interface{}{
 				"mac": "00:01:02:03",
 			},
@@ -136,10 +162,12 @@ func TestClientPreauth(t *testing.T) {
 		tc := tc
 		t.Run(tc.name, func(*testing.T) {
 			f := mockPreauth(t, tc.idDataStruct, tc.pubkey, tc.token, tc.ret)
-			s := mockServer("/api/management/v2/devauth/devices", f)
+
+			// to test insecure https - create a https server (self-signed)
+			s := mockServer("/api/management/v2/devauth/devices", tc.insecure, f)
 			defer s.Close()
 
-			c := NewClient(s.URL)
+			c := NewClient(s.URL, tc.insecure)
 			err := c.Preauth(context.TODO(), tc.idData, tc.pubkey, tc.token)
 
 			if tc.out == nil {
@@ -152,11 +180,16 @@ func TestClientPreauth(t *testing.T) {
 	}
 }
 
-func mockServer(url string, handleFun func(w http.ResponseWriter, r *http.Request)) *httptest.Server {
+func mockServer(url string, https bool, handleFun func(w http.ResponseWriter, r *http.Request)) *httptest.Server {
 	handler := http.NewServeMux()
 	handler.HandleFunc(url, handleFun)
 
-	srv := httptest.NewServer(handler)
+	var srv *httptest.Server
+	if https {
+		srv = httptest.NewTLSServer(handler)
+	} else {
+		srv = httptest.NewServer(handler)
+	}
 	return srv
 }
 

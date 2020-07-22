@@ -7,6 +7,7 @@ package mender
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -41,11 +42,23 @@ type client struct {
 	baseUrl string
 }
 
-func NewClient(baseUrl string) *client {
-	l.Infof("created client with base url %s", baseUrl)
+func NewClient(baseUrl string, insecureSkipVerify bool) *client {
+	l.Infof("created client with base url %s, insecure skip verify: %v", baseUrl, insecureSkipVerify)
+
+	tlsConfig := &tls.Config{}
+
+	if insecureSkipVerify {
+		tlsConfig.InsecureSkipVerify = true
+	}
+
+	tr := &http.Transport{
+		TLSClientConfig: tlsConfig,
+	}
+
 	return &client{
 		c: &http.Client{
-			Timeout: DefaultTimeoutSec * time.Second,
+			Timeout:   DefaultTimeoutSec * time.Second,
+			Transport: tr,
 		},
 		baseUrl: baseUrl,
 	}

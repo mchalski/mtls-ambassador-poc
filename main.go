@@ -82,12 +82,16 @@ func cmdServer(args *cli.Context) error {
 		aconfig.SettingMenderBackend,
 	)
 
-	proxy, err := api.NewProxy(backend)
+	insecure := config.Config.GetBool(
+		aconfig.SettingInsecureSkipVerify,
+	)
+
+	proxy, err := api.NewProxy(backend, insecure)
 	if err != nil {
 		l.Fatal(err)
 	}
 
-	client := mender.NewClient(backend)
+	client := mender.NewClient(backend, insecure)
 
 	user := config.Config.GetString(
 		aconfig.SettingMenderUser,
@@ -201,5 +205,11 @@ func dumpConfig() {
 		aconfig.SettingDebugLog,
 		config.Config.GetString(
 			aconfig.SettingDebugLog,
+		))
+
+	l.Infof(" %s: %v",
+		aconfig.SettingInsecureSkipVerify,
+		config.Config.GetBool(
+			aconfig.SettingInsecureSkipVerify,
 		))
 }

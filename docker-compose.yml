@@ -12,3 +12,4 @@ services:
             MTLS_MENDER_PASS: "correcthorsebatterystaple"
             MTLS_MENDER_BACKEND: "https://staging.hosted.mender.io"
             MTLS_DEBUG_LOG: "true"
+            MTLS_INSECURE_SKIP_VERIFY: "true"

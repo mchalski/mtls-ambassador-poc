@@ -6,6 +6,7 @@ package http
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -43,8 +44,9 @@ type proxy struct {
 	proxy *httputil.ReverseProxy
 }
 
-func NewProxy(menderUrl string) (*proxy, error) {
-	l.Infof("creating proxy with url %s", menderUrl)
+func NewProxy(menderUrl string, insecureSkipVerify bool) (*proxy, error) {
+	l.Infof("creating proxy with url %s, insecure skip verify: %v", menderUrl, insecureSkipVerify)
+
 	u, err := url.Parse(menderUrl)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create proxy")
@@ -56,10 +58,29 @@ func NewProxy(menderUrl string) (*proxy, error) {
 		req.URL.Host = u.Host
 	}
 
+	tlsConfig := &tls.Config{}
+
+	if insecureSkipVerify {
+		tlsConfig.InsecureSkipVerify = true
+	}
+
+	tr := &http.Transport{
+		TLSClientConfig: tlsConfig,
+	}
+
+	ret := &proxy{
+		proxy: &httputil.ReverseProxy{
+			Director:  director,
+			Transport: tr,
+		},
+	}
 	l.Info("creating proxy: ok")
-	return &proxy{
-		proxy: &httputil.ReverseProxy{Director: director},
-	}, nil
+
+	if insecureSkipVerify {
+		ret.proxy.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = true
+	}
+
+	return ret, nil
 }
 
 func (p *proxy) Redirect(w http.ResponseWriter, r *http.Request) {
