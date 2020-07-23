@@ -193,6 +193,7 @@ github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5
 github.com/mendersoftware/go-lib-micro v0.0.0-20200715124500-fa6e3066a020 h1:9JpXjy/emYX3NLgMjFR2LuH6UxfPauqW0Wp8sAAGPCc=
 github.com/mendersoftware/go-lib-micro v0.0.0-20200715124500-fa6e3066a020/go.mod h1:DHK4Anv1GHr/AxFtjfyAyJ92tZaLcJyc0j/0ndpU1SY=
 github.com/mendersoftware/inventory v0.0.0-20200522065057-a25956b1ec7b/go.mod h1:D1QAZ24QhWlZG/l5Hl0ARFQCRTpFyMSqBqGoCpDWfME=
+github.com/mendersoftware/mendertesting v0.0.0-20200528113222-083aca144cb7 h1:j34vOmlHHqE5fz+70tBsMaZYTLqc5xyQw1lFuCyY2xA=
 github.com/mendersoftware/mendertesting v0.0.0-20200528113222-083aca144cb7/go.mod h1:WZyiX1zeljfyFaTjmbR84+wHjzmPDLDvOdRHZnnLM/0=
 github.com/miekg/dns v1.0.14/go.mod h1:W1PPwlIAgtquWBMBEV9nkV9Cazfe8ScdGz/Lj7v3Nrg=
 github.com/mitchellh/cli v1.0.0/go.mod h1:hNIlj7HEI86fIcpObd7a0FcrxTWetlwJDGcceTlRvqc=

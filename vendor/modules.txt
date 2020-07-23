@@ -50,6 +50,9 @@ github.com/mattn/go-isatty
 ## explicit
 github.com/mendersoftware/go-lib-micro/config
 github.com/mendersoftware/go-lib-micro/log
+# github.com/mendersoftware/mendertesting v0.0.0-20200528113222-083aca144cb7
+## explicit
+github.com/mendersoftware/mendertesting
 # github.com/mitchellh/mapstructure v1.1.2
 github.com/mitchellh/mapstructure
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
@@ -68,6 +71,7 @@ github.com/russross/blackfriday/v2
 # github.com/shurcooL/sanitized_anchor_name v1.0.0
 github.com/shurcooL/sanitized_anchor_name
 # github.com/sirupsen/logrus v1.6.0
+## explicit
 github.com/sirupsen/logrus
 # github.com/spf13/afero v1.1.2
 github.com/spf13/afero

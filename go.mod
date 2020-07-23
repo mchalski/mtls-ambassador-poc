@@ -8,10 +8,12 @@ require (
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mendersoftware/go-lib-micro v0.0.0-20200715124500-fa6e3066a020
+	github.com/mendersoftware/mendertesting v0.0.0-20200528113222-083aca144cb7
 	github.com/pkg/errors v0.9.1
+	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli v1.22.4
-	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
+	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1
 	google.golang.org/protobuf v1.24.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
