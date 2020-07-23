@@ -12,6 +12,12 @@ RUN apk add --no-cache ca-certificates xz
 RUN mkdir -p /etc/mtls-ambassador
 COPY ./config.yaml /etc/mtls-ambassador
 COPY --from=builder /go/src/github.com/mendersoftware/mtls-ambassador/mtls-ambassador-test /usr/bin
+RUN mkdir -p /etc/mtls/certs
+COPY --from=builder /go/src/github.com/mendersoftware/mtls-ambassador/certs /etc/mtls/certs
+
+COPY --from=builder /go/src/github.com/mendersoftware/mtls-ambassador/config.yaml /etc/mtls/config.yaml
+
+RUN apk add --update ca-certificates && update-ca-certificates
 ENTRYPOINT [ \
     "/usr/bin/mtls-ambassador-test", \
     "-test.coverprofile=/testing/coverage-acceptance.txt", \

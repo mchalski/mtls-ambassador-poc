@@ -10,6 +10,8 @@ import (
 	"os/signal"
 	"strings"
 	"testing"
+
+	"golang.org/x/sys/unix"
 )
 
 var runAcceptanceTests bool
@@ -47,7 +49,7 @@ func TestRunMain(t *testing.T) {
 	go doMain(cliArgs)
 
 	stopChan := make(chan os.Signal)
-	signal.Notify(stopChan, os.Interrupt)
+	signal.Notify(stopChan, unix.SIGINT, unix.SIGTERM)
 
 	<-stopChan
 }

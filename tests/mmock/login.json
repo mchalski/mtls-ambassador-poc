@@ -1,0 +1,14 @@
+{
+	"description": "mender.io: POST /api/management/v1/useradm/auth/login",
+	"request": {
+		"method": "POST",
+		"path": "/api/management/v1/useradm/auth/login"
+	},
+	"response": {
+        "statusCode": 200,
+        "headers": {
+			"Content-Type":["application/json"]
+        },
+        "body": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NzYxMTkxMzYsImlzcyI6Ik1lbmRlciIsInN1YiI6Ijg1NGIzMTA5LTQ4NjItNGEyNS1hMWZiLWYxMTE2MWNlN2E4NCIsInNjcCI6WyJtZW5kZXIuKiJdfQ.X7Ief4PhPLlR6mA2wh3G3K0Z2tud0rK1QJesxu52NfICSeARmlujczs-_1YZxMwI0s-HgpXHbXIjaSVK80BjxjAM1rqpRGvgqSqG-dU5KmglDpAaTr4VaJci3VFPlVUVTRpI7bfqNMnKZtjmOUAGwjvroDUwX1RwayEmms-efGI"
+	}
+}
