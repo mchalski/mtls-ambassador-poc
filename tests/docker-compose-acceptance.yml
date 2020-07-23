@@ -18,4 +18,22 @@ services:
       - mender
     depends_on:
       - mender-mongo
+      - mmock
+    environment:
+      MTLS_MENDER_BACKEND: "https://mender.io"
+      MTLS_MENDER_USER: "foo@bar.com"
+      MTLS_MENDER_PASS: "foo"
+      MTLS_INSECURE_SKIP_VERIFY: 'true'
+      MTLS_DEBUG_LOG: 'true'
 
+  mmock:
+    image: jordimartin/mmock:v2.7.6
+    command: ["-server-ip", "mender.io", "-console-ip", "0.0.0.0", "-server-port", "80", "-server-tls-port", "443"]
+    ports:
+      - 8082:8082
+    volumes:
+      - "${TESTS_DIR}/mmock:/config"
+    networks:
+      mender:
+        aliases:
+          - mender.io
