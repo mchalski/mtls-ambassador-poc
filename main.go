@@ -1,10 +1,27 @@
+// Copyright 2020 Northern.tech AS
+//
+//    All Rights Reserved
+
 package main
 
 import (
-	"log"
+	"errors"
+	"fmt"
 	"os"
+	"strings"
 
-	"github.com/mendersoftware/mtls-ambassador/mender"
+	"github.com/mendersoftware/go-lib-micro/config"
+	"github.com/mendersoftware/go-lib-micro/log"
+	"github.com/urfave/cli"
+
+	api "github.com/mendersoftware/mtls-ambassador/api/http"
+	"github.com/mendersoftware/mtls-ambassador/app"
+	"github.com/mendersoftware/mtls-ambassador/client/mender"
+	aconfig "github.com/mendersoftware/mtls-ambassador/config"
+)
+
+var (
+	l = log.NewEmpty()
 )
 
 func main() {
@@ -12,31 +29,187 @@ func main() {
 }
 
 func doMain(args []string) {
-	log.Println("reading config")
-	config := ReadConfig()
+	var configPath string
 
-	log.Printf("logging in to Mender to get mgmt token, user: %s\n", config.MenderUser)
-	apiClient := mender.NewClient()
-	mgmtToken, err := apiClient.Login(config.MenderUser,
-		config.MenderPass,
-		config.MenderBackend)
+	l.Info("starting mtls-ambassador")
 
-	if err != nil {
-		panic(err)
+	app := &cli.App{
+		Name: "mtls-ambassador",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:        "config",
+				Usage:       "Configuration `FILE`. Supports JSON, TOML, YAML and HCL formatted configs.",
+				Value:       "config.yaml",
+				Destination: &configPath,
+			},
+		},
+		Action: cmdServer,
 	}
 
-	log.Println("logging in to Mender: success")
+	app.Before = func(args *cli.Context) error {
+		l.Infof("loading config %s", configPath)
+		err := config.FromConfigFile(configPath, aconfig.Defaults)
+		if err != nil {
+			return cli.NewExitError(
+				fmt.Sprintf("error loading configuration: %s", err),
+				1)
+		}
 
-	log.Println("starting server")
-	h := NewHandler(apiClient, config, mgmtToken)
+		config.Config.SetEnvPrefix("MTLS")
+		config.Config.AutomaticEnv()
+		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 
-	s, err := NewServer(config, h)
-	if err != nil {
-		panic(err)
+		l.Info("loading config: ok")
+		dumpConfig()
+
+		log.Setup(config.Config.GetBool(aconfig.SettingDebugLog))
+
+		return nil
 	}
 
-	err = s.Run()
+	err := app.Run(args)
 	if err != nil {
-		panic(err)
+		l.Fatal(err)
 	}
+}
+
+func cmdServer(args *cli.Context) error {
+	if err := validateConfig(config.Config); err != nil {
+		l.Fatal(err)
+	}
+
+	backend := config.Config.GetString(
+		aconfig.SettingMenderBackend,
+	)
+
+	insecure := config.Config.GetBool(
+		aconfig.SettingInsecureSkipVerify,
+	)
+
+	proxy, err := api.NewProxy(backend, insecure)
+	if err != nil {
+		l.Fatal(err)
+	}
+
+	client := mender.NewClient(backend, insecure)
+
+	user := config.Config.GetString(
+		aconfig.SettingMenderUser,
+	)
+	pass := config.Config.GetString(
+		aconfig.SettingMenderPass,
+	)
+
+	authProvider, err := app.NewAuthProvider(client, user, pass)
+	if err != nil {
+		l.Fatal(err)
+	}
+
+	app := app.NewApp(client, authProvider)
+	r, err := api.NewRouter(app, proxy)
+	if err != nil {
+		l.Fatal(err)
+	}
+
+	srvCertFile := config.Config.GetString(
+		aconfig.SettingServerCert,
+	)
+	srvKeyFile := config.Config.GetString(
+		aconfig.SettingServerKey,
+	)
+	tenantCACertFile := config.Config.GetString(
+		aconfig.SettingTenantCAPem,
+	)
+	port := config.Config.GetString(
+		aconfig.SettingListen,
+	)
+
+	s, err := NewServer(r,
+		srvCertFile,
+		srvKeyFile,
+		tenantCACertFile,
+		port)
+	if err != nil {
+		l.Fatal(err)
+	}
+
+	return s.Run()
+}
+
+func validateConfig(c config.Reader) error {
+	l.Info("validating config")
+	required := []string{
+		aconfig.SettingMenderBackend,
+		aconfig.SettingMenderUser,
+		aconfig.SettingMenderPass,
+	}
+
+	for _, c := range required {
+		if config.Config.GetString(c) == "" {
+			return errors.New(fmt.Sprintf("validating config failed: need setting %s\n", c))
+		}
+	}
+
+	l.Info("validating config: ok")
+	return nil
+}
+
+func dumpConfig() {
+	l.Info("config values:")
+	l.Infof(" %s: %s",
+		aconfig.SettingMenderBackend,
+		config.Config.GetString(
+			aconfig.SettingMenderBackend,
+		))
+
+	l.Infof(" %s: %s",
+		aconfig.SettingMenderUser,
+		config.Config.GetString(
+			aconfig.SettingMenderUser,
+		))
+
+	pass := config.Config.GetString(
+		aconfig.SettingMenderPass,
+	)
+	if pass != "" {
+		l.Infof(" %s: %s", aconfig.SettingMenderPass, "not empty")
+	} else {
+		l.Infof(" %s: %s", aconfig.SettingMenderPass, "empty")
+	}
+
+	l.Infof(" %s: %s",
+		aconfig.SettingServerCert,
+		config.Config.GetString(
+			aconfig.SettingServerCert,
+		))
+
+	l.Infof(" %s: %s",
+		aconfig.SettingServerKey,
+		config.Config.GetString(
+			aconfig.SettingServerKey,
+		))
+
+	l.Infof(" %s: %s",
+		aconfig.SettingServerKey,
+		config.Config.GetString(
+			aconfig.SettingTenantCAPem,
+		))
+
+	l.Infof(" %s: %s",
+		aconfig.SettingListen,
+		config.Config.GetString(
+			aconfig.SettingListen,
+		))
+
+	l.Infof(" %s: %s",
+		aconfig.SettingDebugLog,
+		config.Config.GetString(
+			aconfig.SettingDebugLog,
+		))
+
+	l.Infof(" %s: %v",
+		aconfig.SettingInsecureSkipVerify,
+		config.Config.GetBool(
+			aconfig.SettingInsecureSkipVerify,
+		))
 }

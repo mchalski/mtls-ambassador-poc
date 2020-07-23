@@ -1,6 +1,6 @@
 # mTLS Ambassador Service
 
-Proof of concept mTLS Ambassador which:
+This mTLS Ambassador:
 
 - stands in front of the Mender API Gateway
 - protects the device API with mTLS by requiring valid mTLS certs on every call
@@ -26,12 +26,6 @@ For docker-compose, simply issue `docker-compose build` and the service is ready
 For k8s deployments, there's strictly no need to build anything; it pulls prebuilt docker images, e.g.:
 `registry.mender.io/mendersoftware/mtls-ambassador:1.0.2`
 
-Building, tagging and publishing images was done manually, as in:
-```
-docker build -t registry.mender.io/mendersoftware/mtls-ambassador:1.0.2 .
-docker push registry.mender.io/mendersoftware/mtls-ambassador:1.0.2
-```
-
 ## Run
 The Ambassador works against the hardcoded `staging.hosted.mender.io:443` backend (parametrize this as an improvement).
 
@@ -53,7 +47,7 @@ for quick test runs - it uses the default certs from `certs/` (tenant's CA and s
 
 To run:
 1. create your user and tenant
-2. set `MTLS_MENDER_USER` and `MTLS_MENDER_PASS` env vars in docker-compose.yml
+2. verify/set the env vars in docker-compose.yml: `MTLS_MENDER_USER`, `MTLS_MENDER_PASS`, `MTLS_MENDER_BACKEND`
 3. run `docker-compose build`
 4. run `docker-compose up`
 
@@ -61,29 +55,41 @@ The Ambassador is now running at `https://localhost:8080`.
 
 You should see a successful startup sequence like this:
 ```
-mtls-ambassador_1  | 2020/06/26 13:02:37 reading config
-mtls-ambassador_1  | 2020/06/26 13:02:37 logging in to Mender to get mgmt token, user: mtls@mender.io
-mtls-ambassador_1  | 2020/06/26 13:02:38 logging in to Mender: success
-mtls-ambassador_1  | 2020/06/26 13:02:38 starting server
-mtls-ambassador_1  | [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
-mtls-ambassador_1  |
-mtls-ambassador_1  | [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
-mtls-ambassador_1  |  - using env:      export GIN_MODE=release
-mtls-ambassador_1  |  - using code:     gin.SetMode(gin.ReleaseMode)
-mtls-ambassador_1  |
-mtls-ambassador_1  | [GIN-debug] GET    /ping                     --> main.handlePing (3 handlers)
-mtls-ambassador_1  | [GIN-debug] GET    /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] POST   /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] PUT    /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] PATCH  /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] HEAD   /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] OPTIONS /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] DELETE /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] CONNECT /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-mtls-ambassador_1  | [GIN-debug] TRACE  /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=154
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" mender_user: mtls@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=3
+46
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg=" debug_log: true" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="validating config" file=main.go func=main.validateConfig line=136
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=149
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="creating proxy with url https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" li
+ne=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=34
+6
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=59
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="created client with base url https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Info
+f" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:40Z" level=info msg="logging in with user mtls@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=debug msg="token: eyJh.." file=entry.go func="logrus.(*Entry).Debugf" line=342
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key"
+file=entry.go func="logrus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="l$
+grus.(*Entry).Infof" line=346
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+mtls-ambassador_1  | time="2020-07-22T08:54:42Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
 ```
 
-Use the provided client certs in `certs/` to test it out.
+Use the provided client certs in `certs/` to test it out (with curl or the provided mender-client, see below).
 
 ### k8s on AWS
 Deployment and Service manifests for an AWS deploment are available in `/k8s`. These support full customizability of your credentials and certificates.
@@ -152,10 +158,10 @@ kubectl logs -f mtls-ambassador-deployment-c9c4b64fc-x742t
 
 ## Test
 
-For the simplest possible test of your configuration, try the Ambassador's `/ping` probe with curl:
+For the simplest possible test of your configuration, try the Ambassador's `/status` probe with curl:
 
 ```
-curl --cert  certs/tenant-foo.client.1.crt --key certs/tenant-foo.client.1.key -ivk https://aa12d2cf0573e481cabd0b84b3e3448a-f4e2ba095b69e99a.elb.us-east-1.amazonaws.com:8080/ping
+curl --cert  certs/tenant-foo.client.1.crt --key certs/tenant-foo.client.1.key -ivk https://aa12d2cf0573e481cabd0b84b3e3448a-f4e2ba095b69e99a.elb.us-east-1.amazonaws.com:8080/status
 
 * Connected to aa12d2cf0573e481cabd0b84b3e3448a-f4e2ba095b69e99a.elb.us-east-1.amazonaws.com (52.202.100.58) port 8080 (#0)                                     [48/847]
 * ALPN, offering h2
@@ -169,16 +175,16 @@ curl --cert  certs/tenant-foo.client.1.crt --key certs/tenant-foo.client.1.key -
 * TLSv1.3 (IN), TLS Unknown, Certificate Status (22):
 ...
 
-GET /ping HTTP/2
+GET /status HTTP/2
 > Host: aa12d2cf0573e481cabd0b84b3e3448a-f4e2ba095b69e99a.elb.us-east-1.amazonaws.com:8080
 > User-Agent: curl/7.58.0
 > Accept: */
 ...
 
-{"message":"pong"}
+{"status":"ok"}
 ```
 
-If you see the `pong` message, your client certs correctly validate against the tenant's CA cert. You'll see details of the TLS
+If you see the status message, your client certs correctly validate against the tenant's CA cert. You'll see details of the TLS
 handshake to confirm it.
 
 To actually test out the proxying and automatic preauth it's best to use an actual device.
