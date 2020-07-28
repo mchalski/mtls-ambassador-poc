@@ -24,7 +24,7 @@ A standard builder dockerfile is included and two deployment methods:
 For docker-compose, simply issue `docker-compose build` and the service is ready to go.
 
 For k8s deployments, there's strictly no need to build anything; it pulls prebuilt docker images, e.g.:
-`registry.mender.io/mendersoftware/mtls-ambassador:1.0.2`
+`registry.mender.io/mendersoftware/mtls-ambassador:master`
 
 ## Run
 The Ambassador works against the hardcoded `staging.hosted.mender.io:443` backend (parametrize this as an improvement).
