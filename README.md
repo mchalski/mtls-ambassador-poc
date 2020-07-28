@@ -1,4 +1,79 @@
 # mTLS Ambassador Service
+time="2020-07-28T12:29:21Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34                                                             
+time="2020-07-28T12:29:21Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346                                   
+time="2020-07-28T12:29:21Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62                                                             
+time="2020-07-28T12:29:21Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=158                                                                  
+time="2020-07-28T12:29:21Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                      time="2020-07-28T12:29:21Z" level=info msg=" mender_user: mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                                          time="2020-07-28T12:29:21Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346                        time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346                         time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346                                                          time="2020-07-28T12:29:21Z" level=info msg=" debug_log: false" file=entry.go func="logrus.(*Entry).Infof" line=346                                                      time="2020-07-28T12:29:21Z" level=info msg=" insecure_skip_verify: false" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg="validating config" file=main.go func=main.validateConfig line=140                                                           time="2020-07-28T12:29:21Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=153                                                       time="2020-07-28T12:29:21Z" level=info msg="creating proxy with url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*Entry).$
+nfof" line=346                                                                                                                                                          time="2020-07-28T12:29:21Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                    time="2020-07-28T12:29:21Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=77
+time="2020-07-28T12:29:21Z" level=info msg="created client with base url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*En$ry).Infof" line=346                                                                                                                                                     time="2020-07-28T12:29:21Z" level=info msg="logging in with user mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:22Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31                                                      time="2020-07-28T12:29:22Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key" file=entry.go func="$ogrus.(*Entry).Infof" line=346                 
+time="2020-07-28T12:29:22Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346                                                                                                                                                                time="2020-07-28T12:29:22Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+time="2020-07-28T12:29:22Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+time="2020-07-28T12:29:22Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
+
+time="2020-07-28T12:29:21Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34                                                             
+time="2020-07-28T12:29:21Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346                                   
+time="2020-07-28T12:29:21Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62                                                             
+time="2020-07-28T12:29:21Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=158                                                                  
+time="2020-07-28T12:29:21Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                      time="2020-07-28T12:29:21Z" level=info msg=" mender_user: mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                                          time="2020-07-28T12:29:21Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346                        time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346                         time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346                                                          time="2020-07-28T12:29:21Z" level=info msg=" debug_log: false" file=entry.go func="logrus.(*Entry).Infof" line=346                                                      time="2020-07-28T12:29:21Z" level=info msg=" insecure_skip_verify: false" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg="validating config" file=main.go func=main.validateConfig line=140                                                           time="2020-07-28T12:29:21Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=153                                                       time="2020-07-28T12:29:21Z" level=info msg="creating proxy with url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*Entry).$
+nfof" line=346                                                                                                                                                          time="2020-07-28T12:29:21Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                    time="2020-07-28T12:29:21Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=77
+time="2020-07-28T12:29:21Z" level=info msg="created client with base url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*En$ry).Infof" line=346                                                                                                                                                     time="2020-07-28T12:29:21Z" level=info msg="logging in with user mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:22Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31                                                      time="2020-07-28T12:29:22Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key" file=entry.go func="$ogrus.(*Entry).Infof" line=346                 
+time="2020-07-28T12:29:22Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346                                                                                                                                                                time="2020-07-28T12:29:22Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+time="2020-07-28T12:29:22Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+time="2020-07-28T12:29:22Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
+
+time="2020-07-28T12:29:21Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34                                                             
+time="2020-07-28T12:29:21Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346                                   
+time="2020-07-28T12:29:21Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62                                                             
+time="2020-07-28T12:29:21Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=158                                                                  
+time="2020-07-28T12:29:21Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                      time="2020-07-28T12:29:21Z" level=info msg=" mender_user: mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                                          time="2020-07-28T12:29:21Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346                        time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346                         time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346                                                          time="2020-07-28T12:29:21Z" level=info msg=" debug_log: false" file=entry.go func="logrus.(*Entry).Infof" line=346                                                      time="2020-07-28T12:29:21Z" level=info msg=" insecure_skip_verify: false" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg="validating config" file=main.go func=main.validateConfig line=140                                                           time="2020-07-28T12:29:21Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=153                                                       time="2020-07-28T12:29:21Z" level=info msg="creating proxy with url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*Entry).$
+nfof" line=346                                                                                                                                                          time="2020-07-28T12:29:21Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                    time="2020-07-28T12:29:21Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=77
+time="2020-07-28T12:29:21Z" level=info msg="created client with base url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*En$ry).Infof" line=346                                                                                                                                                     time="2020-07-28T12:29:21Z" level=info msg="logging in with user mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:22Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31                                                      time="2020-07-28T12:29:22Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key" file=entry.go func="$ogrus.(*Entry).Infof" line=346                 
+time="2020-07-28T12:29:22Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346                                                                                                                                                                time="2020-07-28T12:29:22Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+time="2020-07-28T12:29:22Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+time="2020-07-28T12:29:22Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
+
+time="2020-07-28T12:29:21Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34                                                             
+time="2020-07-28T12:29:21Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346                                   
+time="2020-07-28T12:29:21Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62                                                             
+time="2020-07-28T12:29:21Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=158                                                                  
+time="2020-07-28T12:29:21Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                      time="2020-07-28T12:29:21Z" level=info msg=" mender_user: mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                                          time="2020-07-28T12:29:21Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346                        time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346                         time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346                                                          time="2020-07-28T12:29:21Z" level=info msg=" debug_log: false" file=entry.go func="logrus.(*Entry).Infof" line=346                                                      time="2020-07-28T12:29:21Z" level=info msg=" insecure_skip_verify: false" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg="validating config" file=main.go func=main.validateConfig line=140                                                           time="2020-07-28T12:29:21Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=153                                                       time="2020-07-28T12:29:21Z" level=info msg="creating proxy with url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*Entry).$
+nfof" line=346                                                                                                                                                          time="2020-07-28T12:29:21Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                    time="2020-07-28T12:29:21Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=77
+time="2020-07-28T12:29:21Z" level=info msg="created client with base url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*En$ry).Infof" line=346                                                                                                                                                     time="2020-07-28T12:29:21Z" level=info msg="logging in with user mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:22Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31                                                      time="2020-07-28T12:29:22Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key" file=entry.go func="$ogrus.(*Entry).Infof" line=346                 
+time="2020-07-28T12:29:22Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346                                                                                                                                                                time="2020-07-28T12:29:22Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+time="2020-07-28T12:29:22Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+time="2020-07-28T12:29:22Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
+
+time="2020-07-28T12:29:21Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34                                                             
+time="2020-07-28T12:29:21Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346                                   
+time="2020-07-28T12:29:21Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62                                                             
+time="2020-07-28T12:29:21Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=158                                                                  
+time="2020-07-28T12:29:21Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                      time="2020-07-28T12:29:21Z" level=info msg=" mender_user: mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                                          time="2020-07-28T12:29:21Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346                        time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346                         time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346                                                          time="2020-07-28T12:29:21Z" level=info msg=" debug_log: false" file=entry.go func="logrus.(*Entry).Infof" line=346                                                      time="2020-07-28T12:29:21Z" level=info msg=" insecure_skip_verify: false" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg="validating config" file=main.go func=main.validateConfig line=140                                                           time="2020-07-28T12:29:21Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=153                                                       time="2020-07-28T12:29:21Z" level=info msg="creating proxy with url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*Entry).$
+nfof" line=346                                                                                                                                                          time="2020-07-28T12:29:21Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                    time="2020-07-28T12:29:21Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=77
+time="2020-07-28T12:29:21Z" level=info msg="created client with base url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*En$ry).Infof" line=346                                                                                                                                                     time="2020-07-28T12:29:21Z" level=info msg="logging in with user mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:22Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31                                                      time="2020-07-28T12:29:22Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key" file=entry.go func="$ogrus.(*Entry).Infof" line=346                 
+time="2020-07-28T12:29:22Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346                                                                                                                                                                time="2020-07-28T12:29:22Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+time="2020-07-28T12:29:22Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+time="2020-07-28T12:29:22Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
+
 
 This mTLS Ambassador:
 
@@ -136,26 +211,20 @@ Check logs to verify a successful startup:
 kubectl logs -f mtls-ambassador-deployment-c9c4b64fc-x742t
 
 
-2020/06/25 17:54:16 reading config
-2020/06/25 17:54:16 logging in to Mender to get mgmt token, user: mtls@mender.io
-2020/06/25 17:54:18 logging in to Mender: success
-2020/06/25 17:54:18 starting server
-[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
-
-[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
- - using env:   export GIN_MODE=release
- - using code:  gin.SetMode(gin.ReleaseMode)
-
-[GIN-debug] GET    /ping                     --> main.handlePing (3 handlers)
-[GIN-debug] GET    /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] POST   /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] PUT    /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] PATCH  /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] HEAD   /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] OPTIONS /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] DELETE /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] CONNECT /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
-[GIN-debug] TRACE  /api/devices/*path        --> main.setupMenderApiHandler.func2 (3 handlers)
+time="2020-07-28T12:29:21Z" level=info msg="starting mtls-ambassador" file=main.go func=main.doMain line=34                                                             
+time="2020-07-28T12:29:21Z" level=info msg="loading config /etc/mtls/config.yaml" file=entry.go func="logrus.(*Entry).Infof" line=346                                   
+time="2020-07-28T12:29:21Z" level=info msg="loading config: ok" file=main.go func=main.doMain.func1 line=62                                                             
+time="2020-07-28T12:29:21Z" level=info msg="config values:" file=main.go func=main.dumpConfig line=158                                                                  
+time="2020-07-28T12:29:21Z" level=info msg=" mender_backend: https://staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                      time="2020-07-28T12:29:21Z" level=info msg=" mender_user: mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                                          time="2020-07-28T12:29:21Z" level=info msg=" mender_pass: not empty" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" server_cert: /etc/mtls/certs/server/server.crt" file=entry.go func="logrus.(*Entry).Infof" line=346                        time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/server/server.key" file=entry.go func="logrus.(*Entry).Infof" line=346                         time="2020-07-28T12:29:21Z" level=info msg=" server_key: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg=" listen: 8080" file=entry.go func="logrus.(*Entry).Infof" line=346                                                          time="2020-07-28T12:29:21Z" level=info msg=" debug_log: false" file=entry.go func="logrus.(*Entry).Infof" line=346                                                      time="2020-07-28T12:29:21Z" level=info msg=" insecure_skip_verify: false" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:21Z" level=info msg="validating config" file=main.go func=main.validateConfig line=140                                                           time="2020-07-28T12:29:21Z" level=info msg="validating config: ok" file=main.go func=main.validateConfig line=153                                                       time="2020-07-28T12:29:21Z" level=info msg="creating proxy with url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*Entry).$
+nfof" line=346                                                                                                                                                          time="2020-07-28T12:29:21Z" level=info msg="proxy scheme: https, host: staging.hosted.mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346                    time="2020-07-28T12:29:21Z" level=info msg="creating proxy: ok" file=proxy.go func=http.NewProxy line=77
+time="2020-07-28T12:29:21Z" level=info msg="created client with base url https://staging.hosted.mender.io, insecure skip verify: false" file=entry.go func="logrus.(*En$ry).Infof" line=346                                                                                                                                                     time="2020-07-28T12:29:21Z" level=info msg="logging in with user mtls2@mender.io" file=entry.go func="logrus.(*Entry).Infof" line=346
+time="2020-07-28T12:29:22Z" level=info msg="logging in: ok" file=auth_provider.go func=app.NewAuthProvider line=31                                                      time="2020-07-28T12:29:22Z" level=info msg="creating server with cert /etc/mtls/certs/server/server.crt and key /etc/mtls/certs/server/server.key" file=entry.go func="$ogrus.(*Entry).Infof" line=346                 
+time="2020-07-28T12:29:22Z" level=info msg="creating cert pool with tenant CA cert: /etc/mtls/certs/tenant-ca/tenant.ca.pem" file=entry.go func="logrus.(*Entry).Infof" line=346                                                                                                                                                                time="2020-07-28T12:29:22Z" level=info msg="creating cert pool: ok" file=server.go func=main.certPool line=71
+time="2020-07-28T12:29:22Z" level=info msg="creating server: ok" file=server.go func=main.NewServer line=44
+time="2020-07-28T12:29:22Z" level=info msg=running... file=server.go func="main.(*Server).Run" line=53
 ```
 
 (Note: the above instructions also hold for minikube deployments, just replace `service.yaml` with `service.minikube.yaml`)
@@ -212,34 +281,25 @@ The client should pass through authentication, upload inventory and go into depl
 
 A new accepted device should also appear in the UI.
 
-Service log excerpt:
+You should see pod logs similar to:
 
 ```
-[GIN] 2020/06/26 - 15:17:09 | 200 |  306.205545ms |  178.200.237.18 | POST     "/api/devices/v1/authentication/auth_requests"
-2020/06/26 15:17:10 intercepted POST /auth_requests
-2020/06/26 15:17:10 client cert details:                                                                                                                                2020/06/26 15:17:10 subject CN=device 1,O=Tenant Foo,ST=Some-State,C=US
-2020/06/26 15:17:10 issuer CN=Tenant Foo,O=Tenant Foo,ST=Some-State,C=US                                                                                                2020/06/26 15:17:10 verifying client key
-2020/06/26 15:17:10 client key: -----BEGIN PUBLIC KEY-----                                                                                                              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxex+WqphwqgkDfPWJZZt
-nXHvvRVhG6j3+q45skFyC8Wa0s3Re8TJIOUKXwx6YWrl333zqq+KOyiYPcaosVl+
-y3IzRkT7hNnyExMFEZi2eygg6SINW4QtNIvTASaQqn831QyfkaaQLGl1vqNe262l
-3uabUAYkaDf9Kaz/RbB5jjCse9d28pvSIlPjZGYd7sdj2qVSiOMDWh1tiCdr63Xl
-/oiGMUMU1qlX9Tv2nRxJfzTLplSJh1C5sT5cqbv7EfxokWHLFYysSOUQLlINphxw
-P5Yk1M0n4WaU6a0FQNmqN+EtnSjyjvM8VINnBMLjOVP7N1siax3e/lKG0bxyWR+T
-hQIDAQAB
------END PUBLIC KEY-----
-
-2020/06/26 15:17:10 client key matches auth req key
-2020/06/26 15:17:10 verifying client key: success
-2020/06/26 15:17:10 preauthorizing
-2020/06/26 15:17:10 proxying auth request to Mender
-[GIN] 2020/06/26 - 15:17:10 | 200 |   23.072598ms |  178.200.237.18 | POST     "/api/devices/v1/authentication/auth_requests"
-[GIN] 2020/06/26 - 15:17:10 | 200 |    5.216645ms |  178.200.237.18 | PATCH    "/api/devices/v1/inventory/device/attributes"
-[GIN] 2020/06/26 - 15:17:10 | 204 |    9.663014ms |  178.200.237.18 | GET      "/api/devices/v1/deployments/device/deployments/next?artifact_name=release-v1&device_typ$
-=rpi4"
-[GIN] 2020/06/26 - 15:17:16 | 204 |    7.888859ms |  178.200.237.18 | GET      "/api/devices/v1/deployments/device/deployments/next?artifact_name=release-v1&device_typ$
-=rpi4"
-[GIN] 2020/06/26 - 15:17:21 | 204 |    5.343698ms |  178.200.237.18 | GET      "/api/devices/v1/deployments/device/deployments/next?artifact_name=release-v1&device_typ$
-=rpi4"
+time="2020-07-28T12:36:53Z" level=info msg="200 212.270577 POST /api/devices/v1/authentication/auth_requests 31.0.85.112 - curl/7.58.0" byteswritten=884 clientip=31.0.8
+5.112 file=logger.go func=http.routerLogger.func1 line=55 method=POST path=/api/devices/v1/authentication/auth_requests responsetime=212.270577 status=200 ts="2020-07-2
+8 12:36:52.900380285 +0000 UTC" type=http
+time="2020-07-28T12:36:53Z" level=info msg="preauthorization conflict detected, but it's ok, proceeding " file=proxy.go func="http.(*ProxyController).Any" line=134
+time="2020-07-28T12:36:53Z" level=info msg="200 44.336597 POST /api/devices/v1/authentication/auth_requests 31.0.85.112 - curl/7.58.0" byteswritten=884 clientip=31.0.85
+.112 file=logger.go func=http.routerLogger.func1 line=55 method=POST path=/api/devices/v1/authentication/auth_requests responsetime=44.336597 status=200 ts="2020-07-28
+12:36:53.66101204 +0000 UTC" type=http
+time="2020-07-28T12:36:54Z" level=info msg="200 10.253328 PATCH /api/devices/v1/inventory/device/attributes 31.0.85.112 - curl/7.58.0" byteswritten=0 clientip=31.0.85.1
+12 file=logger.go func=http.routerLogger.func1 line=55 method=PATCH path=/api/devices/v1/inventory/device/attributes responsetime=10.253328 status=200 ts="2020-07-28 12
+:36:54.226980943 +0000 UTC" type=http
+time="2020-07-28T12:36:54Z" level=info msg="204 6.867587 GET /api/devices/v1/deployments/device/deployments/next 31.0.85.112 - curl/7.58.0" byteswritten=0 clientip=31.0
+.85.112 file=logger.go func=http.routerLogger.func1 line=55 method=GET path=/api/devices/v1/deployments/device/deployments/next responsetime=6.867587 status=204 ts="202
+0-07-28 12:36:54.768362734 +0000 UTC" type=http
+time="2020-07-28T12:37:00Z" level=info msg="204 5.279495 GET /api/devices/v1/deployments/device/deployments/next 31.0.85.112 - curl/7.58.0" byteswritten=0 clientip=31.0
+.85.112 file=logger.go func=http.routerLogger.func1 line=55 method=GET path=/api/devices/v1/deployments/device/deployments/next responsetime=5.279495 status=204 ts="202
+0-07-28 12:37:00.272580869 +0000 UTC" type=http
 ...
 ```
 
