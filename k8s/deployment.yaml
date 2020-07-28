@@ -53,3 +53,5 @@ spec:
           secret:
              # kubectl create secret generic mtls-server-cert --from-file=certs/server/server.crt --from-file=certs/server/server.ke
              secretName: mtls-server-cert
+      imagePullSecrets:
+        - name: regcred

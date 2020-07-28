@@ -110,8 +110,11 @@ Start with creating several secrets which will map to sensitive pod env vars and
 4. `mtls-mender-backend`
     - corresponds to env var `MTLS_MENDER_BACKEND`
     - `kubectl create secret generic mtls-mender-backend --from-literal=mtls-mender-backend='https://staging.hosted.mender.io'`
-5. `kubectl apply -f k8s/deployment.yaml`
-6. `kubectl apply -f k8s/service.yaml`
+5. `regcred`
+    - credentials for `registry.mender.io`
+    - see [instructions](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
+6. `kubectl apply -f k8s/deployment.yaml`
+7. `kubectl apply -f k8s/service.yaml`
 
 Run `kubectl get services` to obtain the DNS name of your Ambassador instance:
 
