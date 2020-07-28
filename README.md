@@ -307,14 +307,3 @@ time="2020-07-28T12:37:00Z" level=info msg="204 5.279495 GET /api/devices/v1/dep
 
 #### k8s AWS config
 TODO
-
-#### Ambassador code
-- POC quality - basic separation of concerns, but not great for testability (no interfaces, etc)
-- no unit tests, tested heavily by hand
-- original idea: use `gin/gonic`, proxy by repacking request manually
-    - instead: used `net/http` ReverseProxy which does that and more
-    - e.g. deals with 'hop-by-hop' headers, possibly more conventions
-    - double check, but consider using it for production
-- missing functional bits:
-    - no revocation support
-    - no management API token refresh
