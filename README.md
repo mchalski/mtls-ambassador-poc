@@ -106,9 +106,9 @@ Start with creating several secrets which will map to sensitive pod env vars and
     - corresponds to the tenant's CA cert in PEM format
     - mounted under `/etc/mtls/certs/tenant-ca`
     - `kubectl create secret generic mtls-tenant-ca-pem --from-file certs/tenant-ca/tenant.ca.pem`
-3. `mender-creds`
+3. `mtls-mender-creds`
     - 2 value secret, corresponds to env vars `MTLS_MENDER_USER` and `MTLS_MENDER_PASS` (your Ambassador user)
-    - `kubectl create secret generic mender-creds --from-literal=username='...' --from-literal=password='...'`
+    - `kubectl create secret generic mtls-mender-creds --from-literal=username='...' --from-literal=password='...'`
 4. `kubectl apply -f k8s/deployment.yaml`
 5. `kubectl apply -f k8s/service.yaml`
 
