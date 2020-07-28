@@ -27,8 +27,6 @@ For k8s deployments, there's strictly no need to build anything; it pulls prebui
 `registry.mender.io/mendersoftware/mtls-ambassador:master`
 
 ## Run
-The Ambassador works against the hardcoded `staging.hosted.mender.io:443` backend (parametrize this as an improvement).
-
 You need several pieces of configuration:
 - an mTLS CA certificate in PEM format (=tenant's certificate), e.g.:
     - `certs/tenant-ca/tenant-foo.ca.pem`,
@@ -109,8 +107,11 @@ Start with creating several secrets which will map to sensitive pod env vars and
 3. `mtls-mender-creds`
     - 2 value secret, corresponds to env vars `MTLS_MENDER_USER` and `MTLS_MENDER_PASS` (your Ambassador user)
     - `kubectl create secret generic mtls-mender-creds --from-literal=username='...' --from-literal=password='...'`
-4. `kubectl apply -f k8s/deployment.yaml`
-5. `kubectl apply -f k8s/service.yaml`
+4. `mtls-mender-backend`
+    - corresponds to env var `MTLS_MENDER_BACKEND`
+    - `kubectl create secret generic mtls-mender-backend --from-literal=mtls-mender-backend='https://staging.hosted.mender.io'`
+5. `kubectl apply -f k8s/deployment.yaml`
+6. `kubectl apply -f k8s/service.yaml`
 
 Run `kubectl get services` to obtain the DNS name of your Ambassador instance:
 

@@ -18,17 +18,23 @@ spec:
       - name: mtls-ambassador
         image: registry.mender.io/mendersoftware/mtls-ambassador:master
         env:
-        # kubectl create secret generic mender-creds --from-literal=username='...' --from-literal=password='...'
+        # kubectl create secret generic mtls-mender-creds --from-literal=username='...' --from-literal=password='...'
           - name: MTLS_MENDER_USER
             valueFrom:
               secretKeyRef:
-                name: mender-creds
+                name: mtls-mender-creds
                 key: username
           - name: MTLS_MENDER_PASS
             valueFrom:
               secretKeyRef:
-                name: mender-creds
+                name: mtls-mender-creds
                 key: password
+        # kubectl create secret generic mtls-mender-backend --from-literal=mtls-mender-backend='...'
+          - name: MTLS_MENDER_BACKEND
+            valueFrom:
+              secretKeyRef:
+                name: mtls-mender-backend
+                key: mtls-mender-backend
         ports:
           - containerPort: 8080
         volumeMounts:
